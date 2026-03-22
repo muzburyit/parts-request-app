@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#007bff">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<title>Parts Request</title>
+
+<style>
+body {font-family: Arial; display:flex; flex-direction:column; align-items:center; background:#f7f7f7;}
+.container {width:90%; max-width:400px; margin-top:40px; background:white; padding:20px; border-radius:10px;}
+input, select, textarea, button {width:100%; padding:12px; margin:8px 0; font-size:16px;}
+button {background:#007bff; color:white; border:none;}
+img {max-height:100px; display:none;}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="login">
+<h2>Login</h2>
+<input id="user" placeholder="Username">
+<input id="pass" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+<p id="err"></p>
+</div>
+
+<div class="container" id="app" style="display:none;">
+<h2>Parts Request</h2>
+<p>User: <span id="u"></span></p>
+
+<select id="veh"></select>
+<textarea id="part" placeholder="Enter part"></textarea>
+
+<button onclick="photo(1)">Add Photo 1</button>
+<img id="p1">
+
+<button onclick="photo(2)">Add Photo 2</button>
+<img id="p2">
+
+<button onclick="photo(3)">Add Photo 3</button>
+<img id="p3">
+
+<button onclick="submitReq()">Submit</button>
+<p id="msg"></p>
+</div>
+
+<input type="file" id="file" accept="image/*" style="display:none;">
+
+<script>
+// ✅ YOUR LIVE GAS URL IS HERE
+const API = "https://script.google.com/macros/s/AKfycbyCIGZjhRSeADIPrp-uh4FOVT_0FNzrAxmL_CTLkg_Ytw8WLnAmr9XJTgL6sjIpDzY/exec";
+
+let photos=[null,null,null];
+let idx=0;
+
+async function login(){
+  let res=await fetch(API,{
+    method:"POST",
+    body:JSON.stringify({
+      action:"login",
+      user:user.value,
+      pass:pass.value
+    })
+  });
+
+  let ok=await res.json();
+
+  if(ok){
+    login.style.display="none";
+    app.style.display="block";
+    u.innerText=user.value;
+    loadVehicles();
+  } else {
+    err.innerText="Invalid login";
+  }
+}
+
+async function loadVehicles(){
+  let res=await fetch(API,{
+    method:"POST",
+    body:JSON.stringify({action:"vehicles"})
+  });
+
+  let data=await res.json();
+
+  veh.innerHTML="<option>Select Vehicle</option>";
+  data.forEach(v=>veh.innerHTML+=`<option>${v[0]}</option>`);
+}
+
+function photo(i){
+  idx=i;
+  file.value="";
+  file.click();
+}
+
+file.onchange=e=>{
+  let f=e.target.files[0];
+  let r=new FileReader();
+
+  r.onload=e=>{
+    let img=new Image();
+
+    img.onload=()=>{
+      let c=document.createElement("canvas");
+      let scale=Math.min(1,1024/img.width);
+      c.width=img.width*scale;
+      c.height=img.height*scale;
+
+      c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+
+      let b64=c.toDataURL("image/jpeg",0.8).split(",")[1];
+      photos[idx-1]=b64;
+
+      let p=document.getElementById("p"+idx);
+      p.src=c.toDataURL("image/jpeg",0.8);
+      p.style.display="block";
+    };
+
+    img.src=e.target.result;
+  };
+
+  r.readAsDataURL(f);
+};
+
+async function submitReq(){
+  await fetch(API,{
+    method:"POST",
+    body:JSON.stringify({
+      action:"save",
+      user:u.innerText,
+      vehicle:veh.value,
+      part:part.value,
+      photo1:photos[0],
+      photo2:photos[1],
+      photo3:photos[2]
+    })
+  });
+
+  msg.innerText="Submitted";
+
+  // reset form
+  part.value="";
+  veh.selectedIndex=0;
+  photos=[null,null,null];
+
+  ["p1","p2","p3"].forEach(id=>{
+    document.getElementById(id).style.display="none";
+  });
+}
+
+// service worker
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
+
+</body>
+</html>
