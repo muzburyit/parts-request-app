@@ -1,7 +1,7 @@
 {
   "short_name": "PartsReq",
   "name": "Parts Request App",
-  "start_url": "/parts-request-app/",
+  "start_url": "./",
   "display": "standalone",
   "theme_color": "#007bff",
   "background_color": "#ffffff",
