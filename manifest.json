@@ -1,6 +1,10 @@
 {
   "short_name": "PartsReq",
   "name": "Parts Request App",
+  "start_url": "/parts-request-app/",
+  "display": "standalone",
+  "theme_color": "#007bff",
+  "background_color": "#ffffff",
   "icons": [
     {
       "src": "icon-192.png",
@@ -12,9 +16,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "start_url": "index.html",
-  "display": "standalone",
-  "theme_color": "#007bff",
-  "background_color": "#ffffff"
+  ]
 }
