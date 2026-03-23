@@ -1,52 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PartsReq</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#007bff">
-<link rel="apple-touch-icon" href="icon-192.png">
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#007bff">
 
-<meta name="apple-mobile-web-app-title" content="PartsReq">
-  
-<style>
-body{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;margin:0;font-family:Arial;}
-button{padding:20px 40px;font-size:24px;background:#007bff;color:white;border:none;border-radius:10px;cursor:pointer;}
-button:hover{opacity:0.9;}
-h1{margin-bottom:40px;}
-</style>
+  <!-- Icons -->
+  <link rel="icon" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
 
-  <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- iOS support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="PartsReq">
 
-<link rel="manifest" href="manifest.json">
+  <!-- Title (important for Android browsers like DuckDuckGo) -->
+  <title>PartsReq</title>
 
-<meta name="theme-color" content="#007bff">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #f7f7f7;
+    }
 
-<!-- ANDROID + IOS ICON -->
-<link rel="icon" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
+    .container {
+      text-align: center;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+    }
 
-<!-- IOS APP SETTINGS -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="PartsReq">
+    h2 {
+      margin-bottom: 20px;
+    }
 
-<!-- IMPORTANT FOR DUCKDUCKGO -->
-<title>PartsReq</title>
+    button {
+      width: 100%;
+      padding: 15px;
+      font-size: 18px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
 </head>
 
 <body>
-<h1>Parts Request App</h1>
-<button onclick="launch()">Open App</button>
 
-<script>
-function launch(){
-  // opens GAS app in same tab
-  window.location.href = "https://script.google.com/macros/s/AKfycbxCBFIZwIzRYiVz0A9rZmBatOmyfAHnxdOF7VQb96rxq0cy14MJIosRJXNZSl5GOZvm/exec";
-}
-</script>
+<div class="container">
+  <h2>Parts Request App</h2>
+
+  <!-- ✅ FIXED BUTTON -->
+  <a href="https://script.google.com/macros/s/AKfycbyCIGZjhRSeADIPrp-uh4FOVT_0FNzrAxmL_CTLkg_Ytw8WLnAmr9XJTgL6sjIpDzY/exec" target="_blank">
+    <button>Open App</button>
+  </a>
+
+</div>
 
 </body>
 </html>
